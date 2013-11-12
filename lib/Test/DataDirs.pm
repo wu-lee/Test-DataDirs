@@ -48,29 +48,27 @@ sub new {
     }, $class;
 
     # expand the data directories 
-    if (my $data = $param{data}) {
-        for(my $ix = 0; $ix < @$data; $ix += 2) {
-            my ($name, $dir) = @$data[$ix, $ix+1];
-            die "Can't use dir name '$name': already in use as '$self->{$name}'"
-                if exists $self->{dirs}{$name};
-
-            $dir = File::Spec->catdir($self->{data_dir}, $dir);
-            $self->{dirs}{$name} = $dir;
-            push @{ $self->{data_dirs} }, $name, $dir;
-        }
+    my @data = (data_dir => '', @{ $param{data} || [] });
+    for(my $ix = 0; $ix < @data; $ix += 2) {
+        my ($name, $dir) = @data[$ix, $ix+1];
+        die "Can't use dir name '$name': already in use as '$self->{$name}'"
+            if exists $self->{dirs}{$name};
+        
+        $dir = File::Spec->catdir($self->{data_dir}, $dir);
+        $self->{dirs}{$name} = $dir;
+        push @{ $self->{data_dirs} }, $name, $dir;
     }
 
     # ditto the temp directories
-    if (my $temp = $param{temp}) {
-        for(my $ix = 0; $ix < @$temp; $ix += 2) {
-            my ($name, $dir) = @$temp[$ix, $ix+1];
-            croak "Can't use dir name '$name': already in use as '$self->{$name}'"
-                if exists $self->{dirs}{$name};
-
-            $dir = File::Spec->catdir($self->{temp_dir}, $dir);
-            $self->{dirs}{$name} = $dir;
-            push @{ $self->{temp_dirs} }, $name, $dir;
-        }
+    my @temp = (temp_dir => '', @{ $param{temp} || [] });
+    for(my $ix = 0; $ix < @temp; $ix += 2) {
+        my ($name, $dir) = @temp[$ix, $ix+1];
+        croak "Can't use dir name '$name': already in use as '$self->{$name}'"
+            if exists $self->{dirs}{$name};
+        
+        $dir = File::Spec->catdir($self->{temp_dir}, $dir);
+        $self->{dirs}{$name} = $dir;
+        push @{ $self->{temp_dirs} }, $name, $dir;
     }
 
     # check the copies attribute
