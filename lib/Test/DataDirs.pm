@@ -1,3 +1,13 @@
+=head1 NAME
+
+Test::DataDirs - manage t/data and t/temp directories for your tests
+
+=head1 SYNOPSIS
+
+=head1 DESCRIPTION
+
+=cut
+
 package Test::DataDirs;
 use strict;
 use warnings;
@@ -6,6 +16,8 @@ use File::Spec;
 use File::Glob qw(bsd_glob);
 use File::Path qw(mkpath rmtree);
 use Carp qw(croak);
+
+
 
 =head2 C<< $obj = $class->new(%params) >>
 
