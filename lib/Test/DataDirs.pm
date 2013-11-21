@@ -4,6 +4,42 @@ Test::DataDirs - manage t/data and t/temp directories for your tests
 
 =head1 SYNOPSIS
 
+This class is a convenience which provides data directories from which
+to source information for your tests, and temp directories you can
+write data.
+
+Declare some temp and data directories you need in your test script as
+below.  These are implicitly relative to C<< t/temp/<yourscriptname> >>
+ and C<< t/data/<yourscriptname> >>.  Then you may refer to them
+using the appropriate entry in the returned hash and assume the dirs
+exist and that the temp dirs have been (re-)created.
+
+    # File: t/test-01.t
+    use Test::DataDirs;
+
+    my %D = Test::DataDirs->new(
+        temp => [temp_stuff => 'actual-dir',
+                 more_temp  => 'another-dir'],
+        data => [data_stuff => 'actual-dir'],
+    )->hash;
+
+    print "My test data is checked into $D{data_stuff}\n"
+    print "below $D{data_dir}\n"
+    # Prints (except with absolute paths):
+    # My test data is checked into t/data/test-01/actual-dir
+    # below t/data/test-01
+
+    print "I can write temp data into $D{temp_stuff}\n"
+    print "and $D{more_temp}, "below $D{temp_dir}\n"
+    # Prints (except with absolute paths):
+    # I can write temp data into t/temp/test-01/actual-dir
+    # and t/temp/test-01/another-dir below t/data/test-01
+
+
+This module defines an OO interface.  See also
+L<Test::DataDirs::Exporter> for a module with similar usage but which
+imports vars into your namespace.
+
 =head1 DESCRIPTION
 
 =cut
@@ -42,7 +78,7 @@ to the appropriate paths constructed from C<$base_dir> and the
 appropriate C<relpath>.
 
 =cut
-                               
+
 sub new {
     my $class = shift;
     my %param = @_;
