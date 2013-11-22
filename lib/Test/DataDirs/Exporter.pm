@@ -45,6 +45,8 @@ use Test::DataDirs;
 use Carp;
 our @CARP_NOT = 'Test::DataDirs';
 
+# VERSION
+
 sub import {
     my $package = shift;
     my $target = caller;

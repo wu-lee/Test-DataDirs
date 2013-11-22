@@ -53,7 +53,7 @@ use File::Glob qw(bsd_glob);
 use File::Path qw(mkpath rmtree);
 use Carp qw(croak);
 
-
+# VERSION
 
 =head2 C<< $obj = $class->new(%params) >>
 
