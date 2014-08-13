@@ -52,7 +52,7 @@ sub import {
     my $target = caller;
 
     my $dirs = Test::DataDirs->new(@_)->dirs;
-    no strict 'refs';
+    no strict 'refs'; ## no critic
     for my $name (keys %$dirs) {
         *{"${target}::$name"} = \$dirs->{$name};
     }
