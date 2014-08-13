@@ -4,7 +4,7 @@ Test::DataDirs - manage t/data and t/temp directories for your tests
 
 =head1 VERSION
 
-version 0.1.0
+version 0.1.1
 
 =head1 SYNOPSIS
 
