@@ -19,7 +19,7 @@ use lib "$Bin/../ll/lib/perl5";
             temp => [ip => 'hip'],
             data => [oo => 'moo'],
         );
-    } qr{No such data directory '.*t/data/tdde-003/moo'},
+    } qr{No such data directory '.*t.data.tdde-003.moo'},
         "No dir 'tdde-003'";
 
 }
@@ -36,7 +36,7 @@ use lib "$Bin/../ll/lib/perl5";
             temp => [ip => 'hig'],
             data => [oo => 'mog'],
         );
-    } qr{No such data directory '.*t/data/zoon/mog'}, 
+    } qr{No such data directory '.*t.data.zoon.mog'}, 
         "No dir 'zoon/mog'";
 }
 

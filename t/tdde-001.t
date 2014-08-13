@@ -2,6 +2,7 @@
 use strict;
 use warnings;
 use Test::More;
+use File::Spec;
 use FindBin qw($Bin);
 use lib "$Bin/../lib";
 
@@ -15,6 +16,8 @@ sub pkgvar {
     return ${ *{"${caller}::$name"} };
 }
 
+sub path { [File::Spec->splitdir(shift),@_] } # Convenience function
+
 {
     package A;
     use Test::More;
@@ -23,10 +26,12 @@ sub pkgvar {
     # $data_dir and $temp_dir, check for $data_dir and create $temp_dir
     use Test::DataDirs::Exporter;
 
-    is $data_dir, "$bin/data/tdde-001", "\$data_dir is set correctly";
+    is_deeply ::path($data_dir), ::path($bin, qw(data tdde-001)),
+        "\$data_dir is set correctly";
     ok -d $data_dir, "$data_dir exists and is a directory";
     
-    is $temp_dir, "$bin/temp/tdde-001", "\$temp_dir is set correctly";
+    is_deeply ::path($temp_dir), ::path($bin, qw(temp tdde-001)),
+        "\$temp_dir is set correctly";
     ok -d $temp_dir, "$temp_dir exists and is a directory";
 }
 
@@ -43,19 +48,23 @@ sub pkgvar {
         data => [oo => 'moo', ee => 'mee'],
     );
 
-    is $data_dir, "$bin/data/tdde-001", "\$data_dir is set correctly";
+    is_deeply ::path($data_dir), ::path($bin, qw(data tdde-001)),
+        "\$data_dir is set correctly";
     ok -d $data_dir, "$data_dir exists and is a directory";
     
-    is $temp_dir, "$bin/temp/tdde-001", "\$temp_dir is set correctly";
+    is_deeply ::path($temp_dir), ::path($bin, qw(temp tdde-001)),
+        "\$temp_dir is set correctly";
     ok -d $temp_dir, "$temp_dir exists and is a directory";
 
     for (qw(oo ee)) {
-        is ::pkgvar($_), "$bin/data/tdde-001/m$_", "\$$_ is set correctly";
+        is_deeply ::path(::pkgvar($_)), ::path($bin, qw(data tdde-001), "m$_"),
+            "\$$_ is set correctly";
         ok -d ::pkgvar($_), ::pkgvar($_ )." exists and is a directory";
     }
 
     for (qw(ip op)) {
-        is ::pkgvar($_), "$bin/temp/tdde-001/h$_", "\$$_ is set correctly";
+        is_deeply ::path(::pkgvar($_)), ::path($bin, qw(temp tdde-001), "h$_"),
+            "\$$_ is set correctly";
         ok -d ::pkgvar($_), ::pkgvar($_)." exists and is a directory";
     }
 }
@@ -71,19 +80,23 @@ sub pkgvar {
         data => [oo => 'moo', ee => 'mee'],
     );
 
-    is $data_dir, "$bin/data/zoon", "\$data_dir is set correctly";
+    is_deeply ::path($data_dir), ::path($bin, qw(data zoon)),
+        "\$data_dir is set correctly";
     ok -d $data_dir, "$data_dir exists and is a directory";
     
-    is $temp_dir, "$bin/temp/zoon", "\$temp_dir is set correctly";
+    is_deeply ::path($temp_dir), ::path($bin, qw(temp zoon)),
+        "\$temp_dir is set correctly";
     ok -d $temp_dir, "$temp_dir exists and is a directory";
 
     for (qw(oo ee)) {
-        is ::pkgvar($_), "$bin/data/zoon/m$_", "\$$_ is set correctly";
+        is_deeply ::path(::pkgvar($_)), ::path($bin, qw(data zoon), "m$_"),
+            "\$$_ is set correctly";
         ok -d ::pkgvar($_), ::pkgvar($_ )." exists and is a directory";
     }
 
     for (qw(ip op)) {
-        is ::pkgvar($_), "$bin/temp/zoon/h$_", "\$$_ is set correctly";
+        is_deeply ::path(::pkgvar($_)), ::path($bin, qw(temp zoon), "h$_"),
+            "\$$_ is set correctly";
         ok -d ::pkgvar($_), ::pkgvar($_)." exists and is a directory";
     }
 }

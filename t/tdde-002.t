@@ -16,7 +16,7 @@ use lib "$Bin/../ll/lib/perl5";
     throws_ok {
         require 'Test/DataDirs/Exporter.pm';
         Test::DataDirs::Exporter->import;
-    }  qr{No such data directory '.*t/data/tdde-002'},
+    }  qr{No such data directory '.*t.data.tdde-002'},
         "No dir 'tdde-002'";
 
 }
@@ -32,7 +32,7 @@ use lib "$Bin/../ll/lib/perl5";
             temp => [ip => 'hip', op => 'hop'],
             data => [oo => 'moo', ee => 'mee'],
         );
-    } qr{No such data directory '.*t/data/tdde-002'},
+    } qr{No such data directory '.*t.data.tdde-002'},
         "No dir 'tdde-002'";
 
 }
@@ -49,7 +49,7 @@ use lib "$Bin/../ll/lib/perl5";
             temp => [ip => 'hip', op => 'hop'],
             data => [oo => 'moo', ee => 'mee'],
         );
-    } qr{No such data directory '.*t/data/nonesuch'}, 
+    } qr{No such data directory '.*t.data.nonesuch'}, 
         "No dir 'nonesuch'";
 }
 
